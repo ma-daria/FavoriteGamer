@@ -10,8 +10,9 @@ const signUpRouter = require('./routes/signUp');
 
 const app = express();
 
-require('./database/lib/dbInit');
+
 require('dotenv').config();
+require('./database/lib/dbInit');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

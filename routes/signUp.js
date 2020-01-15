@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const multiparty = require('multiparty');
+const fs = require('fs');
+const request = require('request');
 
 router.post('/', function(req, res, next) {
     const contentType = req.headers['content-type'];
