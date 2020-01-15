@@ -15,6 +15,7 @@
   },
   "devDependencies": {
     "dotenv": "^8.2.0",
+    "multiparty": "^4.2.1",
     "sequelize": "^5.21.3"
   }
 }
