@@ -11,6 +11,7 @@ router.get('/', async function(req, res) {
     let password = req.body.password;
     let token = await src_user.SignIn(email, password);
     let json = {};
+    res.writeHead(200, {'Content-Type': 'application/json'});
     if (token === 'no ok') {
         res.clearCookie("user");
         json = {

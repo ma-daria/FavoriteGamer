@@ -4,6 +4,7 @@ const src_favorite = require('../src/src_favorite');
 
 router.post('/', async function(req, res) {
     let cookie = req.cookies.user;
+    res.writeHead(200, {'Content-Type': 'application/json'});
     if(!src_favorite.CheckCookie(cookie)){
         res.end('{status: "no login"}');
     }

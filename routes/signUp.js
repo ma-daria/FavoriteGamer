@@ -7,6 +7,7 @@ const src_user = require('../src/src_user');
 
 router.post('/', async function(req, res) {
     const contentType = req.headers['content-type'];
+    res.writeHead(200, {'Content-Type': 'application/json'});
     if (contentType && contentType.indexOf('multipart') === 0) {
         const form = new multiparty.Form();
         form.parse(req, async function(err, fields, files) {
