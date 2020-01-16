@@ -13,6 +13,7 @@ const signUpRouter = require('./routes/signUp');
 const signInRouter = require('./routes/signIn');
 const gamerSearchRouter = require('./routes/gamerSearch');
 const addFavoriteRouter = require('./routes/addFavorite');
+const getFavoriteRouter = require('./routes/getFavorite');
 
 const app = express();
 
@@ -33,6 +34,7 @@ app.use('/sign_up', signUpRouter);
 app.use('/sign_in', signInRouter);
 app.use('/gamer_search', gamerSearchRouter);
 app.use('/add_favorite', addFavoriteRouter);
+app.use('/get_favorite', getFavoriteRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
