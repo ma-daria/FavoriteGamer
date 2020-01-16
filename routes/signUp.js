@@ -3,7 +3,7 @@ const router = express.Router();
 const multiparty = require('multiparty');
 
 
-const inquiry_user = require('../database/inquiry/inquiry_user');
+const src_user = require('../src/src_user');
 
 router.post('/', async function(req, res) {
     const contentType = req.headers['content-type'];
@@ -18,7 +18,7 @@ router.post('/', async function(req, res) {
                 };
                 // res.end('no ok')
             } else {
-                let result = await inquiry_user.SignUp(fields, files);
+                let result = await src_user.SignUp(fields, files);
                 if (result !== 'no ok') {
                     res.cookie('user', result);
                     json = {

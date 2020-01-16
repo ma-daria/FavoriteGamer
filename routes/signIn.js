@@ -4,12 +4,12 @@ const router = express.Router();
 
 
 
-const inquiry_user = require('../database/inquiry/inquiry_user');
+const src_user = require('../src/src_user');
 
 router.get('/', async function(req, res) {
     let email = req.body.email;
     let password = req.body.password;
-    let token = await inquiry_user.SignIn(email, password);
+    let token = await src_user.SignIn(email, password);
     let json = {};
     if (token === 'no ok') {
         res.clearCookie("user");

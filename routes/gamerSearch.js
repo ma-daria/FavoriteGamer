@@ -1,46 +1,19 @@
 const express = require('express');
 const router = express.Router();
-const request = require('request');
+const src_favorite = require('../src/src_favorite');
 
 router.get('/', async function(req, res) {
-    let cookie = req.cookies.user;
-    let json = {};
+    let json = null;
 
-    console.log(cookie);
-    if (cookie === undefined){
-        json = {
-            'status': 'no login'
-        };
-        res.end(JSON.stringify(json));
+    let cookie = req.cookies.user;
+    if(!src_favorite.CheckCookie(cookie)){
+        res.end('{status: "no login"}');
     }
 
     let gamer = req.body.gamer;
-    let url = process.env.PR_URL+gamer;
+    const prom = await src_favorite.CheckGamer(gamer);
 
-
-    const prom = new Promise(function(resolve, reject) {
-        request(url, function (err, res, body) {
-            if (err) reject(err);
-            if (body.indexOf('Профиль не найден') === -1){
-                json = {
-                    'status': 'true'
-                };
-            }else {
-                json = {
-                    'status': 'false'
-                };
-            }
-            resolve(json);
-
-        });
-    });
-    prom
-        .then((data) => {
-            res.end(JSON.stringify(data));
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+    res.end(JSON.stringify(prom));
 
 
 });
