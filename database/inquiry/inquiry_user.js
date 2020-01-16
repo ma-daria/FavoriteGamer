@@ -65,4 +65,26 @@ function GenerateHash(text){
         .digest('hex');
 }
 
+
+
+/**
+ * @return {string}
+ */
+async function SignIn(email, password){
+    let user_bd = await user.findOne({
+        where: {
+            email: email
+        }
+    })
+        .catch((err) => {
+            console.log(err)
+        });
+    if (user_bd === null)
+        return "no ok";
+    if ( user_bd.dataValues.password === GenerateHash(password))
+        return user_bd.dataValues.token;
+    return "no ok";
+}
+
 module.exports.SignUp = SignUp;
+module.exports.SignIn = SignIn;

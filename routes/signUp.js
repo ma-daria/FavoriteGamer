@@ -18,8 +18,6 @@ router.post('/', async function(req, res) {
                 res.end(result);
             }
         });
-
-
     }
 });
 
