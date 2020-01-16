@@ -10,11 +10,21 @@ router.get('/', async function(req, res) {
     let email = req.body.email;
     let password = req.body.password;
     let token = await inquiry_user.SignIn(email, password);
-    if (token !== 'no ok') {
+    let json = {};
+    if (token === 'no ok') {
+        res.cookie('user', undefined);
+        json = {
+            'status': 'no ok'
+        };
+    } else {
         res.cookie('user', token);
-        res.end('ok')
+        json = {
+            'status': 'ok'
+        };
+        // res.end('ok')
     }
-    res.end (token);
+    res.end(JSON.stringify(json));
+    // res.end (token);
 });
 
 
