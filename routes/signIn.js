@@ -12,14 +12,14 @@ router.get('/', async function(req, res) {
     let token = await inquiry_user.SignIn(email, password);
     let json = {};
     if (token === 'no ok') {
-        res.cookie('user', undefined);
+        res.clearCookie("user");
         json = {
-            'status': 'no ok'
+            'status': 'false'
         };
     } else {
         res.cookie('user', token);
         json = {
-            'status': 'ok'
+            'status': 'true'
         };
         // res.end('ok')
     }

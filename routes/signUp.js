@@ -14,7 +14,7 @@ router.post('/', async function(req, res) {
             if (err) {
                 console.error(err);
                 json = {
-                    'status': 'no ok'
+                    'status': 'false'
                 };
                 // res.end('no ok')
             } else {
@@ -22,13 +22,13 @@ router.post('/', async function(req, res) {
                 if (result !== 'no ok') {
                     res.cookie('user', result);
                     json = {
-                        'status': 'ok'
+                        'status': 'true'
                     };
                     // res.end('ok');
                 }else {
-                    res.cookie('user', undefined);
+                    res.clearCookie("user");
                     json = {
-                        'status': 'no ok'
+                        'status': 'false'
                     };
                 }
 
