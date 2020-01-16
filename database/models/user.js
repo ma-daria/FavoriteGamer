@@ -23,6 +23,11 @@ const  user = sequelize.define('user', {
         type: Sequelize.STRING(700)
     },
 
+    token: {
+        type: Sequelize.STRING(700),
+        unique: true
+    }
+
 });
 
 module.exports = user;
