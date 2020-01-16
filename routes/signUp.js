@@ -15,6 +15,10 @@ router.post('/', async function(req, res) {
                 res.end('no ok')
             } else {
                 let result = await inquiry_user.SignUp(fields, files);
+                if (result !== 'no ok') {
+                    res.cookie('user', result);
+                    res.end('ok');
+                }
                 res.end(result);
             }
         });
