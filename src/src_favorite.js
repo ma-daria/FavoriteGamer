@@ -40,6 +40,19 @@ async function CheckGamer(gamer) {
 async function AddFavorite(token, gamer){
     let id = await GetIdUser(token);
 
+    let sherch = await favorite.findOne({
+        where: {
+            user_id: id,
+            nickname_gamer: gamer
+        }
+    })
+        .catch((err) => {
+            console.log(err)
+        });
+
+    if (sherch !== null)
+        return true;
+
     await favorite.create({
         user_id: id,
         nickname_gamer: gamer
