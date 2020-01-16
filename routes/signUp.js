@@ -12,6 +12,7 @@ router.post('/', async function(req, res) {
         form.parse(req, async function(err, fields, files) {
             if (err) {
                 console.error(err);
+                res.end('no ok')
             } else {
                 let result = await inquiry_user.SignUp(fields, files);
                 res.end(result);
