@@ -13,7 +13,7 @@ stages:
 develop-deploy:
   stage: deploy
   only:
-    - develop
+    - master
   script:
     - npm install
     - cp /home/secret/.env .env
