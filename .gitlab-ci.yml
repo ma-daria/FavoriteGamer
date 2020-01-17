@@ -1,0 +1,14 @@
+before_script:
+  - whoami
+  - groups
+  - pwd
+  - docker info
+stages:
+  - deploy
+deploying:
+  stage: deploy
+  only:
+    - master
+  script: 
+    - docker build -t node .
+    - docker run -d -p 3000:3000 --name app node
