@@ -31,8 +31,12 @@ router.post('/', async function(req, res) {
                 };
             } else {
                 let size;
-                size = await src_user.GetSizeFile(files.avatar["0"].path);
-
+                try {
+                    size = await src_user.GetSizeFile(files.avatar["0"].path);
+                } catch(e) {
+                    console.log(e);
+                    size = 5242881;
+                }
                 let result;
                 if (((path.extname(files.avatar["0"].path) === '.jpg') || (path.extname(files.avatar["0"].path) === '.png')
                     || (path.extname(files.avatar["0"].path) === '.JPG') || (path.extname(files.avatar["0"].path) === '.PNG')

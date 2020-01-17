@@ -32,7 +32,16 @@ async function ParsingSite(gamer){
  */
 async function CheckGamer(gamer) {
     let json;
-    const body = await ParsingSite(gamer);
+    let body;
+    try {
+        body = await ParsingSite(gamer);
+    } catch(e) {
+        console.log(e);
+        return {
+            'status': 'false'
+        };
+    }
+
     if (body.indexOf('Профиль не найден') === -1){
         json = {
             'status': 'true'
