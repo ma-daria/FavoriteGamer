@@ -42,7 +42,6 @@ async function CheckGamer(gamer) {
             'status': 'false'
         };
     }
-    console.log(typeof json);
     return json;
 }
 
@@ -63,7 +62,8 @@ async function AddFavorite(token, gamer){
         }
     })
         .catch((err) => {
-            console.log(err)
+            console.log(err);
+            return false;
         });
 
     if (sherch !== null)
@@ -93,7 +93,8 @@ async function GetIdUser(token){
         }
     })
         .catch((err) => {
-            console.log(err)
+            console.log(err);
+            return -1;
         });
     return user_bd.dataValues.id;
 }
@@ -107,13 +108,18 @@ async function GetIdUser(token){
  */
 async function GetFavorite(token){
     let id = await GetIdUser(token);
+    if (id === -1){
+        console.log("error in user search");
+        return [];
+    }
     let favorite_g = await favorite.findAll({
         where: {
             user_id: id
         }
     })
         .catch((err) => {
-            console.log(err)
+            console.log(err);
+            return [];
         });
     return favorite_g.map((o) => o.dataValues.nickname_gamer);
 }

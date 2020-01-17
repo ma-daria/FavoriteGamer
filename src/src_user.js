@@ -23,13 +23,15 @@ async function SignUp(fields, files) {
         }
     })
         .catch((err) => {
-            console.log(err)
+            console.log(err);
+            return 'no ok';
         });
     if (user_bd == null){
         password = GenerateHash(password);
         let token = GenerateHash(email);
         const path_ = SaveImage(avatar, token+path.extname(avatar));
-
+        if (path_ === 'no ok')
+            return path_;
         await user.create({
             name: name,
             surname: surname,
@@ -40,12 +42,12 @@ async function SignUp(fields, files) {
         })
             .catch(async (err) => {
                 console.log(err);
+                return 'no ok';
             });
         return token;
     }else
         return 'no ok';
 }
-
 
 /**
  * сохранение аватарки
@@ -56,8 +58,10 @@ async function SignUp(fields, files) {
  */
 function SaveImage(path_from, path_to){
     fs.copyFile(path_from, 'public/images/'+path_to, (err) => {
-        if (err)
+        if (err) {
             console.log(err);
+            return 'no ok'
+        }
     });
     return 'public/images/'+path_to;
 }
@@ -88,7 +92,8 @@ async function SignIn(email, password){
         }
     })
         .catch((err) => {
-            console.log(err)
+            console.log(err);
+            return 'no ok';
         });
     if (user_bd === null)
         return "no ok";
