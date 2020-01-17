@@ -4,7 +4,11 @@ const crypto = require('crypto');
 const path = require('path');
 
 /**
- * @return {string}
+ * регестрация
+ * @param fields данные пользователя
+ * @param files аватарка
+ * @returns {Promise<string>} результаты регестрации
+ * @constructor
  */
 async function SignUp(fields, files) {
     const name = fields.name["0"];
@@ -44,7 +48,11 @@ async function SignUp(fields, files) {
 
 
 /**
- * @return {string}
+ * сохранение аватарки
+ * @param path_from ссылка где исходник
+ * @param path_to ссылка названия изображения
+ * @returns {string} ссылка куда было сохранено
+ * @constructor
  */
 function SaveImage(path_from, path_to){
     fs.copyFile(path_from, 'public/images/'+path_to, (err) => {
@@ -54,9 +62,11 @@ function SaveImage(path_from, path_to){
     return 'public/images/'+path_to;
 }
 
-
 /**
- * @return {string}
+ * гененрация хэша
+ * @param text исходный текст
+ * @returns {string} сгенерирвоанный текс
+ * @constructor
  */
 function GenerateHash(text){
     return crypto.createHmac('sha256', process.env.CR_PASS)
@@ -64,10 +74,12 @@ function GenerateHash(text){
         .digest('hex');
 }
 
-
-
 /**
- * @return {string}
+ * вход в систему
+ * @param email эмайл
+ * @param password пароль
+ * @returns {Promise<string|{unique: boolean, type: StringDataType}|{unique: boolean, type: StringDataType}>} реузльтат входа
+ * @constructor
  */
 async function SignIn(email, password){
     let user_bd = await user.findOne({
@@ -85,6 +97,12 @@ async function SignIn(email, password){
     return "no ok";
 }
 
+/**
+ * получить размер заданного файла
+ * @param file ссылка до файла
+ * @returns {Promise<unknown>} размер
+ * @constructor
+ */
 async function GetSizeFile(file){
     return await new Promise(function (resolve, reject) {
         fs.stat(file, (err, stats) => {
