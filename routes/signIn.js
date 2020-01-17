@@ -1,4 +1,5 @@
 const express = require('express');
+const joi = require('joi');
 const router = express.Router();
 const src_user = require('../src/src_user');
 
@@ -15,23 +16,34 @@ const src_user = require('../src/src_user');
 }
  */
 router.get('/', async function(req, res) {
-    let email = req.body.email;
-    let password = req.body.password;
-    let token = await src_user.SignIn(email, password);
-    let json;
-    if (token === 'no ok') {
-        res.clearCookie("user");
-        json = {
-            'status': 'false'
-        };
-    } else {
-        res.cookie('user', token);
-        json = {
-            'status': 'true'
-        };
+    const schema = joi.object().keys({
+        email: joi.string(),
+        password: joi.string()
+    });
+    const result = joi.validate(req.body, schema);
+    if (result.error !== null) {
+        res.end('{status: "false"}');
+        console.log(result.error);
     }
-    res.writeHead(200, {'Content-Type': 'application/json'});
-    res.end(JSON.stringify(json));
+    else {
+        let email = req.body.email;
+        let password = req.body.password;
+        let token = await src_user.SignIn(email, password);
+        let json;
+        if (token === 'no ok') {
+            res.clearCookie("user");
+            json = {
+                'status': 'false'
+            };
+        } else {
+            res.cookie('user', token);
+            json = {
+                'status': 'true'
+            };
+        }
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(json));
+    }
 });
 
 

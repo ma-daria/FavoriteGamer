@@ -1,4 +1,5 @@
 const express = require('express');
+const joi = require('joi');
 const router = express.Router();
 const src_favorite = require('../src/src_favorite');
 
@@ -18,10 +19,20 @@ router.get('/', async function(req, res) {
     if(!src_favorite.CheckCookie(cookie)){
         res.end('{status: "no login"}');
     }
-    let gamer = req.body.gamer;
-    let json = await src_favorite.CheckGamer(gamer);
-    res.writeHead(200, {'Content-Type': 'application/json'});
-    res.end(JSON.stringify(json));
+    const schema = joi.object().keys({
+        gamer: joi.string(),
+    });
+    const result = joi.validate(req.body, schema);
+    if (result.error !== null) {
+        res.end('{status: "false"}');
+        console.log(result.error);
+    }
+    else {
+        let gamer = req.body.gamer;
+        let json = await src_favorite.CheckGamer(gamer);
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(json));
+    }
 });
 
 

@@ -22,6 +22,7 @@ router.post('/', async function(req, res) {
     const contentType = req.headers['content-type'];
     if (contentType && contentType.indexOf('multipart') === 0) {
         const form = new multiparty.Form();
+
         form.parse(req, async function(err, fields, files) {
             let json;
             if (err) {
@@ -61,6 +62,11 @@ router.post('/', async function(req, res) {
             res.end(JSON.stringify(json));
 
         });
+    }else {
+        let j = {
+            'status': 'false'
+        };
+        res.end(JSON.stringify(j));
     }
 });
 

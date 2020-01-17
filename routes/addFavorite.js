@@ -1,4 +1,5 @@
 const express = require('express');
+const joi = require('joi');
 const router = express.Router();
 const src_favorite = require('../src/src_favorite');
 
@@ -20,13 +21,24 @@ router.post('/', async function(req, res) {
         res.end('{status: "no login"}');
     }
 
-    let gamer = req.body.gamer;
-    let f =await src_favorite.AddFavorite(cookie, gamer);
-    res.writeHead(200, {'Content-Type': 'application/json'});
-    if (f){
-        res.end('{status: "true"}');
-    }else
+    const schema = joi.object().keys({
+        gamer: joi.string(),
+    });
+    const result = joi.validate(req.body, schema);
+
+    if (result.error !== null) {
         res.end('{status: "false"}');
+        console.log(result.error);
+    }
+    else {
+        let gamer = req.body.gamer;
+        let f = await src_favorite.AddFavorite(cookie, gamer);
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        if (f) {
+            res.end('{status: "true"}');
+        } else
+            res.end('{status: "false"}');
+    }
 });
 
 module.exports = router;
