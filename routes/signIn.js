@@ -1,11 +1,19 @@
 const express = require('express');
 const router = express.Router();
-
-
-
-
 const src_user = require('../src/src_user');
 
+/*
+роут для входа в систему
+на вход - json вида:
+{
+  "email": "2234",
+  "password": "1"
+}
+на выход - json вида:
+{
+    "status": "true\false"
+}
+ */
 router.get('/', async function(req, res) {
     let email = req.body.email;
     let password = req.body.password;
@@ -25,9 +33,6 @@ router.get('/', async function(req, res) {
     res.writeHead(200, {'Content-Type': 'application/json'});
     res.end(JSON.stringify(json));
 });
-
-
-
 
 
 module.exports = router;

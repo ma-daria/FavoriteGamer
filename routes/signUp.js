@@ -2,10 +2,22 @@ const express = require('express');
 const router = express.Router();
 const multiparty = require('multiparty');
 const path = require('path');
-
-
 const src_user = require('../src/src_user');
 
+/*
+роут регистрации
+на вход - FormData вида:
+key         value
+name
+surname
+avatar
+email
+password
+на выход - json вида:
+{
+    "status": "true\false"
+}
+ */
 router.post('/', async function(req, res) {
     const contentType = req.headers['content-type'];
     if (contentType && contentType.indexOf('multipart') === 0) {
@@ -47,9 +59,6 @@ router.post('/', async function(req, res) {
         });
     }
 });
-
-
-
 
 
 module.exports = router;
