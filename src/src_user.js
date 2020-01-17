@@ -1,6 +1,7 @@
 const fs = require('fs');
 const user = require('../database/models/user');
 const crypto = require('crypto');
+const path = require('path');
 
 /**
  * @return {string}
@@ -23,14 +24,12 @@ async function SignUp(fields, files) {
     if (user_bd == null){
         password = GenerateHash(password);
         let token = GenerateHash(email);
-        const path = SaveImage(avatar, token+'.jpg');
-
-
+        const path_ = SaveImage(avatar, token+path.extname(avatar));
 
         await user.create({
             name: name,
             surname: surname,
-            path_avatar: path,
+            path_avatar: path_,
             email: email,
             password: password,
             token: token
@@ -86,5 +85,32 @@ async function SignIn(email, password){
     return "no ok";
 }
 
+async function GetSizeFile(file){
+    return await new Promise(function (resolve, reject) {
+        fs.stat(file, (err, stats) => {
+            if (err) {
+                reject(err);
+            }
+            // console.log(stats.size);
+            // size = stats.size;
+            resolve(stats.size);
+            // return stats.size;
+            // console.log(stats.size);
+        });
+    });
+    // await res
+    //     .then(
+    //         result => {
+    //             return result;
+    //         },
+    //         error => {
+    //             console.error(error);
+    //         }
+    //     );
+
+
+}
+
 module.exports.SignUp = SignUp;
 module.exports.SignIn = SignIn;
+module.exports.GetSizeFile = GetSizeFile;
