@@ -26,8 +26,6 @@ function SaveImage(pathFrom, pathTo) {
   fs.copyFile(pathFrom, `${process.env.PATH}${pathTo}`, (err) => {
     if (err) {
       console.log(err);
-
-      return 'no ok';
     }
   });
 
