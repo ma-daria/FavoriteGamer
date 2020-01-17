@@ -21,6 +21,6 @@ develop-deploy:
     - mkdir /home/projects/app
     - cp . /home/projects/app -R
     - cd /home/projects/app
-    - npm run start:stage
+    - npm run start
   after_script:
     - pm2 ps
