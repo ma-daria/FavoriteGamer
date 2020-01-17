@@ -91,24 +91,9 @@ async function GetSizeFile(file){
             if (err) {
                 reject(err);
             }
-            // console.log(stats.size);
-            // size = stats.size;
             resolve(stats.size);
-            // return stats.size;
-            // console.log(stats.size);
         });
     });
-    // await res
-    //     .then(
-    //         result => {
-    //             return result;
-    //         },
-    //         error => {
-    //             console.error(error);
-    //         }
-    //     );
-
-
 }
 
 module.exports.SignUp = SignUp;
