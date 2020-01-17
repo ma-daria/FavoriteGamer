@@ -40,6 +40,7 @@ Bearer
     "status": "true\false"
 }
 ```
+А также в cookie отправляется токен пользователя, по которому дается доступ к остальным роутам
 
 - https://test-maryina.wnm.digital/api/sign_in
 роут для входа в систему
@@ -57,6 +58,7 @@ Bearer
     "status": "true\false"
 }
 ```
+А также в cookie отправляется токен пользователя, по которому дается доступ к остальным роутам
 
 - https://test-maryina.wnm.digital/api/gamer_search
 роут для проверки сущестования играков по нику
