@@ -1,6 +1,7 @@
 const express = require('express');
+
 const router = express.Router();
-const src_favorite = require('../src/src_favorite');
+const srcFavorite = require('../src/srcFavorite');
 
 /**
 роут для получения списка избранных играков
@@ -16,13 +17,14 @@ const src_favorite = require('../src/src_favorite');
     ]
 }
  */
-router.get('/', async function(req, res) {
-    let cookie = req.cookies.user;
-    if(!src_favorite.CheckCookie(cookie)){
-        res.end('{status: "no login"}');
-    }
-    res.writeHead(200, {'Content-Type': 'application/json'});
-    res.end(JSON.stringify(await src_favorite.GetInformationFavorite(cookie)));
+router.get('/', async (req, res) => {
+  const cookie = req.cookies.user;
+
+  if (!srcFavorite.CheckCookie(cookie)) {
+    res.end('{status: "no login"}');
+  }
+  res.writeHead(200, { 'Content-Type': 'application/json' });
+  res.end(JSON.stringify(await srcFavorite.GetInformationFavorite(cookie)));
 });
 
 module.exports = router;
