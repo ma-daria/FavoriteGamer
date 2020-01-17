@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const src_favorite = require('../src/src_favorite');
 
-/*
+/**
 роут для проверки сущестования играков по нику
 на вход - json вида:
 {

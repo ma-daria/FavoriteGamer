@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const src_user = require('../src/src_user');
 
-/*
+/**
 роут для входа в систему
 на вход - json вида:
 {

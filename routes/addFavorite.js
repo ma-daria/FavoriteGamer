@@ -2,16 +2,17 @@ const express = require('express');
 const router = express.Router();
 const src_favorite = require('../src/src_favorite');
 
-/*
-роут для добавления игрока по нику в избранное.
-на вход - json вида:
-{
-  "gamer": "nickname_gamer"
-}
-на выход - json вида:
-{
-    status: "true\false\no login"
-}
+
+/**
+ * роут для добавления игрока по нику в избранное.
+ * на вход - json вида:
+ * {
+ *   "gamer": "nickname_gamer"
+ * }
+ * на выход - json вида:
+ * {
+ *    status: "true\false\no login"
+ * }
  */
 router.post('/', async function(req, res) {
     let cookie = req.cookies.user;

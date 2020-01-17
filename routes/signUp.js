@@ -4,7 +4,7 @@ const multiparty = require('multiparty');
 const path = require('path');
 const src_user = require('../src/src_user');
 
-/*
+/**
 роут регистрации
 на вход - FormData вида:
 key         value
