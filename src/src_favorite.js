@@ -4,23 +4,35 @@ const user = require('../database/models/user');
 const favorite = require('../database/models/favorite');
 
 /**
- * @return {boolean}
+ * Проверка куки
+ * @param cookie - куки
+ * @returns {boolean} - результат проверки
+ * @constructor
  */
 function CheckCookie(cookie) {
     return cookie !== undefined;
-
 }
 
+/**
+ * получение html старницы сайта
+ * @param gamer никнейм играка
+ * @returns {Promise<void>} - html страница
+ * @constructor
+ */
 async function ParsingSite(gamer){
     let url = process.env.PR_URL+gamer;
     return await request(url);
 }
 
+/**
+ * Проверка существования игрока
+ * @param gamer - никнейм игрока
+ * @returns {Promise<{status: string}|{status: string}>} json с результатом
+ * @constructor
+ */
 async function CheckGamer(gamer) {
     let json;
     const body = await ParsingSite(gamer);
-    // let url = process.env.PR_URL+gamer;
-    // const body = await request(url);
     if (body.indexOf('Профиль не найден') === -1){
         json = {
             'status': 'true'
@@ -35,7 +47,11 @@ async function CheckGamer(gamer) {
 }
 
 /**
- * @return {boolean}
+ * Добваление в избранное
+ * @param token токен пользователя
+ * @param gamer никнейм игрока
+ * @returns {Promise<boolean>} статус операции
+ * @constructor
  */
 async function AddFavorite(token, gamer){
     let id = await GetIdUser(token);
@@ -64,6 +80,12 @@ async function AddFavorite(token, gamer){
     return true;
 }
 
+/**
+ * Запрос id пользователя
+ * @param token токен пользователя
+ * @returns {Promise<*>} id
+ * @constructor
+ */
 async function GetIdUser(token){
     let user_bd = await user.findOne({
         where: {
@@ -76,7 +98,13 @@ async function GetIdUser(token){
     return user_bd.dataValues.id;
 }
 
-
+/**
+ * список играков в избранном
+ * @param token токен пользователя
+ * @returns {Promise<Uint8Array|BigInt64Array|any[]|Float64Array|Int8Array|Float32Array|Int32Array|Uint32Array|Uint8ClampedArray|BigUint64Array|Int16Array|Uint16Array>}
+ *      json со списком никнеймов играков
+ * @constructor
+ */
 async function GetFavorite(token){
     let id = await GetIdUser(token);
     let favorite_g = await favorite.findAll({
@@ -91,11 +119,13 @@ async function GetFavorite(token){
 }
 
 /**
- * @return {string}
+ * Получить иформации о играках из избранного
+ * @param token токен пользователя
+ * @returns {Promise<{gamer: []}>}  json с информацией об играках
+ * @constructor
  */
 async function GetInformationFavorite(token){
     let gamers = await GetFavorite(token);
-    // let result = {''}
     let mas = [];
     for (let gamer of gamers) {
         let ga = await GetInformationGamer(gamer);
@@ -105,25 +135,23 @@ async function GetInformationFavorite(token){
 }
 
 /**
- * @return {string}
+ * Получить информации о играке
+ * @param gamer никнейм игрока
+ * @returns {Promise<{lavel: (*|jQuery), nickname: *, photo: (undefined|string|jQuery)}>}  json с информацией об играке
+ * @constructor
  */
 async function GetInformationGamer(gamer){
     const body = await ParsingSite(gamer);
-
     let $ = cheerio.load(body);
-
     let level = $('div.u-vertical-center').text();
     level = level.slice(0, level.length/2);
     let photo = $('img.player-portrait').attr("src");
-
     return {
         "nickname": gamer,
         "lavel": level,
         "photo": photo
     };
 }
-
-
 
 
 module.exports.CheckCookie = CheckCookie;
