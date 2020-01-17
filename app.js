@@ -7,8 +7,7 @@ const logger = require('morgan');
 require('dotenv').config();
 require('./database/lib/dbInit');
 
-const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
+
 const signUpRouter = require('./routes/signUp');
 const signInRouter = require('./routes/signIn');
 const gamerSearchRouter = require('./routes/gamerSearch');
@@ -28,8 +27,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/api/', indexRouter);
-app.use('/api/users', usersRouter);
 app.use('/api/sign_up', signUpRouter);
 app.use('/api/sign_in', signInRouter);
 app.use('/api/gamer_search', gamerSearchRouter);
