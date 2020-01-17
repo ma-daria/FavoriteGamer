@@ -10,8 +10,7 @@ router.get('/', async function(req, res) {
     let email = req.body.email;
     let password = req.body.password;
     let token = await src_user.SignIn(email, password);
-    let json = {};
-    res.writeHead(200, {'Content-Type': 'application/json'});
+    let json;
     if (token === 'no ok') {
         res.clearCookie("user");
         json = {
@@ -22,10 +21,9 @@ router.get('/', async function(req, res) {
         json = {
             'status': 'true'
         };
-        // res.end('ok')
     }
+    res.writeHead(200, {'Content-Type': 'application/json'});
     res.end(JSON.stringify(json));
-    // res.end (token);
 });
 
 
