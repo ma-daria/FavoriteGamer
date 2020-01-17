@@ -23,7 +23,7 @@ function GenerateHash(text) {
  * @constructor
  */
 function SaveImage(pathFrom, pathTo) {
-  fs.copyFile(pathFrom, `${process.env.PATH}${pathTo}`, (err) => {
+  fs.copyFile(pathFrom, `${process.env.UPLOAD_PATH}${pathTo}`, (err) => {
     if (err) {
       console.log(err);
     }
