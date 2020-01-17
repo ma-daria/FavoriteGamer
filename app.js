@@ -28,13 +28,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/sign_up', signUpRouter);
-app.use('/sign_in', signInRouter);
-app.use('/gamer_search', gamerSearchRouter);
-app.use('/add_favorite', addFavoriteRouter);
-app.use('/get_favorite', getFavoriteRouter);
+app.use('/api/', indexRouter);
+app.use('/api/users', usersRouter);
+app.use('/api/sign_up', signUpRouter);
+app.use('/api/sign_in', signInRouter);
+app.use('/api/gamer_search', gamerSearchRouter);
+app.use('/api/add_favorite', addFavoriteRouter);
+app.use('/api/get_favorite', getFavoriteRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
