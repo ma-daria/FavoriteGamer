@@ -1,14 +1,26 @@
+cache:
+  paths:
+    - node_modules/
+
 before_script:
   - whoami
   - groups
   - pwd
-  - docker info
+
 stages:
   - deploy
-deploying:
+
+develop-deploy:
   stage: deploy
   only:
-    - master
-  script: 
-    - docker build -t node .
-    - docker run -d -p 3000:3000 --name app node
+    - develop
+  script:
+    - npm install
+    - cp /home/secret/.env .env
+    - rm -rf /home/projects/app | echo 'no folder'
+    - mkdir /home/projects/app
+    - cp . /home/projects/app -R
+    - cd /home/projects/app
+    - pm2 restart node ./bin/www
+  after_script:
+    - pm2 ps
