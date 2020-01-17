@@ -63,7 +63,7 @@ function SaveImage(path_from, path_to){
             return 'no ok'
         }
     });
-    return 'public/images/'+path_to;
+    return process.env.PATH+path_to;
 }
 
 /**
