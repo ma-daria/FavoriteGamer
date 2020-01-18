@@ -16,7 +16,7 @@ const srcUser = require('../src/srcUser');
     "status": "true\false"
 }
  */
-router.get('/', async (req, res) => {
+router.post('/', async (req, res) => {
   const schema = joi.object().keys({
     email: joi.string(),
     password: joi.string(),
