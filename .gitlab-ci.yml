@@ -16,7 +16,7 @@ develop-deploy:
     - master
   script:
     - npm install
-    - cp /home/secret/.env .env
+    - cp /home/projects/secret/.env .env
     - rm -rf /home/projects/app | echo 'no folder'
     - mkdir /home/projects/app
     - cp . /home/projects/app -R
