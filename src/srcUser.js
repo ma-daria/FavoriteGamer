@@ -29,7 +29,7 @@ function SaveImage(pathFrom, pathTo) {
     }
   });
 
-  return process.env.PATH + pathTo;
+  return process.env.UPLOAD_PATH + pathTo;
 }
 
 /**
