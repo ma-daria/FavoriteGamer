@@ -23,17 +23,18 @@ const MAX_FILE_SIZE = 5 * 1024 * 1024 * 8;
  */
 router.post('/', async (req, res) => {
   const contentType = req.headers['content-type'];
+  let json;
 
   if (contentType && contentType.indexOf('multipart') === 0) {
     const form = new multiparty.Form();
 
     form.parse(req, async (err, fields, files) => {
-      let json;
+      // let json;
 
       if (err) {
         console.error(err);
         json = {
-          status: 'false',
+          status: 'incorrect data',
         };
       } else {
         let size;
@@ -45,7 +46,7 @@ router.post('/', async (req, res) => {
           res.writeHead(200, { 'Content-Type': 'application/json' });
           res.clearCookie('user');
           json = {
-            status: 'false',
+            status: 'image error',
           };
           res.end(JSON.stringify(json));
 
@@ -54,21 +55,24 @@ router.post('/', async (req, res) => {
         let result;
 
         if (((path.extname(files.avatar['0'].path).toLowerCase() === '.jpg')
-                    || (path.extname(files.avatar['0'].path).toLowerCase() === '.png')
+            || (path.extname(files.avatar['0'].path).toLowerCase() === '.png')
         ) && (size <= MAX_FILE_SIZE)) {
-          result = await srcUser.SignUp(fields, files);
-        } else {
-          result = 'no ok';
-        }
-        if (result !== 'no ok') {
-          res.cookie('user', result);
-          json = {
-            status: 'true',
-          };
+          try {
+            result = await srcUser.SignUp(fields, files);
+            res.cookie('user', result);
+            json = {
+              status: 'true',
+            };
+          } catch (e) {
+            res.clearCookie('user');
+            json = {
+              status: e.name,
+            };
+          }
         } else {
           res.clearCookie('user');
           json = {
-            status: 'false',
+            status: 'image error',
           };
         }
       }
@@ -76,11 +80,12 @@ router.post('/', async (req, res) => {
       res.end(JSON.stringify(json));
     });
   } else {
-    const j = {
-      status: 'false',
+    json = {
+      status: 'incorrect data',
     };
 
-    res.end(JSON.stringify(j));
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify(json));
   }
 });
 

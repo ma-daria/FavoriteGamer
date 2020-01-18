@@ -32,6 +32,21 @@ function SaveImage(pathFrom, pathTo) {
   return process.env.UPLOAD_PATH + pathTo;
 }
 
+function UserError(er) {
+  Error.call(this, user) ;
+  this.name = "UserError";
+
+  this.er = er;
+  this.message = "user " + er;
+
+  if (Error.captureStackTrace) {
+    Error.captureStackTrace(this, UserError);
+  } else {
+    this.stack = (new Error()).stack;
+  }
+}
+UserError.prototype = Object.create(Error.prototype);
+
 /**
  * регистрация
  * @param fields данные пользователя
@@ -54,7 +69,7 @@ async function SignUp(fields, files) {
     .catch((err) => {
       console.log(err);
 
-      return 'no ok';
+      throw err;
     });
 
   if (userBd == null) {
@@ -62,7 +77,6 @@ async function SignUp(fields, files) {
     const token = GenerateHash(email);
     const pathImg = SaveImage(avatar, token + path.extname(avatar));
 
-    if (pathImg === 'no ok') return pathImg;
     await user.create({
       name,
       surname,
@@ -74,13 +88,13 @@ async function SignUp(fields, files) {
       .catch(async (err) => {
         console.log(err);
 
-        return 'no ok';
+        throw err;
       });
 
     return token;
   }
 
-  return 'no ok';
+  throw new UserError('exists');
 }
 
 /**
