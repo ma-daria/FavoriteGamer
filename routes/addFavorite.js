@@ -25,17 +25,17 @@ router.post('/', async (req, res) => {
   const schema = joi.object().keys({
     gamer: joi.string(),
   });
-  const result = joi.validate(req.body, schema);
+  const data = joi.validate(req.body, schema);
 
-  if (result.error !== null) {
+  if (data.error !== null) {
     res.end('{status: "false"}');
-    console.log(result.error);
+    console.log(data.error);
   } else {
     const { gamer } = req.body;
-    const f = await srcFavorite.AddFavorite(cookie, gamer);
+    const result = await srcFavorite.AddFavorite(cookie, gamer);
 
     res.writeHead(200, { 'Content-Type': 'application/json' });
-    if (f) {
+    if (result) {
       res.end('{status: "true"}');
     } else res.end('{status: "false"}');
   }

@@ -63,11 +63,9 @@ Bearer
 - https://test-maryina.wnm.digital/api/gamer_search
 (get)роут для проверки сущестования играков по нику
 
-на вход - json вида:
+на вход - в query передается параметр gamer:
 ```
-{
-  "gamer": "nickname_gamer"
-}
+api/gamer_search?gamer=nikname
 ```
 на выход - json вида:
 ```
