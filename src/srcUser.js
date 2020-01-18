@@ -113,13 +113,13 @@ async function SignIn(email, password) {
     .catch((err) => {
       console.log(err);
 
-      return 'no ok';
+      throw err;
     });
 
-  if (userBd === null) return 'no ok';
+  if (userBd === null) throw new UserError('does not exist');
   if (userBd.dataValues.password === GenerateHash(password)) return userBd.dataValues.token;
 
-  return 'no ok';
+  throw new UserError('wrong password');
 }
 
 /**

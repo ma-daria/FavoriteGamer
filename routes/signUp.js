@@ -66,7 +66,7 @@ router.post('/', async (req, res) => {
           } catch (e) {
             res.clearCookie('user');
             json = {
-              status: e.name,
+              status: e.message,
             };
           }
         } else {

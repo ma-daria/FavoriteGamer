@@ -24,25 +24,28 @@ router.post('/', async (req, res) => {
   const result = joi.validate(req.body, schema);
 
   if (result.error !== null) {
-    res.end('{status: "false"}');
+    res.end('{status: "incorrect data"}');
     console.log(result.error);
   } else {
     const { email } = req.body;
     const { password } = req.body;
-    const token = await srcUser.SignIn(email, password);
     let json;
 
-    if (token === 'no ok') {
-      res.clearCookie('user');
-      json = {
-        status: 'false',
-      };
-    } else {
+    try {
+      const token = await srcUser.SignIn(email, password);
+
       res.cookie('user', token);
       json = {
         status: 'true',
       };
+    } catch (e) {
+      console.log(e);
+      res.clearCookie('user');
+      json = {
+        status: e.message,
+      };
     }
+
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify(json));
   }
