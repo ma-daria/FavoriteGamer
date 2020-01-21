@@ -17,6 +17,7 @@ Bearer
 
 
 **Запуск приложения**
+
 -Создать базу данных postgreSQL
 -Создать файл .env по типу .env.example
 -cd link_shortener_02
