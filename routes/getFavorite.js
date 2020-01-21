@@ -19,12 +19,17 @@ const srcFavorite = require('../src/srcFavorite');
  */
 router.get('/', async (req, res) => {
   const cookie = req.cookies.user;
+  let json;
 
   if (!srcFavorite.CheckCookie(cookie)) {
-    res.end('{status: "no login"}');
+    json = { status: 'no login' };
+    res.json(json);
+
+    return;
   }
-  res.writeHead(200, { 'Content-Type': 'application/json' });
-  res.end(JSON.stringify(await srcFavorite.GetInformationFavorite(cookie)));
+
+  json = await srcFavorite.GetInformationFavorite(cookie);
+  res.json(json);
 });
 
 module.exports = router;

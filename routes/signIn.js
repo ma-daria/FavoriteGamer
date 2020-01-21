@@ -22,14 +22,14 @@ router.post('/', async (req, res) => {
     password: joi.string(),
   });
   const result = joi.validate(req.body, schema);
+  let json;
 
   if (result.error !== null) {
-    res.end('{status: "incorrect data"}');
+    json = { status: 'incorrect data' };
     console.log(result.error);
   } else {
     const { email } = req.body;
     const { password } = req.body;
-    let json;
 
     try {
       const token = await srcUser.SignIn(email, password);
@@ -45,10 +45,8 @@ router.post('/', async (req, res) => {
         status: e.message,
       };
     }
-
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify(json));
   }
+  res.json(json);
 });
 
 module.exports = router;

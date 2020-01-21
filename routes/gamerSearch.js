@@ -16,9 +16,13 @@ api/gamer_search?gamer=nikname
  */
 router.get('/', async (req, res) => {
   const cookie = req.cookies.user;
+  let json;
 
   if (!srcFavorite.CheckCookie(cookie)) {
-    res.end('{status: "no login"}');
+    json = { status: 'no login' };
+    res.json(json);
+
+    return;
   }
   const schema = joi.object().keys({
     gamer: joi.string(),
@@ -26,10 +30,10 @@ router.get('/', async (req, res) => {
   const data = joi.validate(req.query, schema);
 
   if (data.error !== null) {
-    res.end('{status: "incorrect data"}');
+    json = { status: 'incorrect data' };
     console.log(data.error);
+    res.json(json);
   } else {
-    let json;
     const { gamer } = req.query;
 
     try {
@@ -38,8 +42,7 @@ router.get('/', async (req, res) => {
       json = { status: e };
     }
 
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify(json));
+    res.json(json);
   }
 });
 

@@ -17,9 +17,13 @@ const srcFavorite = require('../src/srcFavorite');
  */
 router.post('/', async (req, res) => {
   const cookie = req.cookies.user;
+  let json;
 
   if (!srcFavorite.CheckCookie(cookie)) {
-    res.end('{status: "no login"}');
+    json = { status: 'no login' };
+    res.json(json);
+
+    return;
   }
 
   const schema = joi.object().keys({
@@ -28,8 +32,10 @@ router.post('/', async (req, res) => {
   const data = joi.validate(req.body, schema);
 
   if (data.error !== null) {
-    res.end('{status: "incorrect data"}');
+    json = { status: 'incorrect data' };
     console.log(data.error);
+
+    res.json(json);
   } else {
     const { gamer } = req.body;
 
@@ -41,10 +47,9 @@ router.post('/', async (req, res) => {
       result = e;
     }
 
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    const json = { status: result };
+    json = { status: result };
 
-    res.end(JSON.stringify(json));
+    res.json(json);
   }
 });
 

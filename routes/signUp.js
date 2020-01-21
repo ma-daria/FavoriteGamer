@@ -29,8 +29,6 @@ router.post('/', async (req, res) => {
     const form = new multiparty.Form();
 
     form.parse(req, async (err, fields, files) => {
-      // let json;
-
       if (err) {
         console.error(err);
         json = {
@@ -43,12 +41,11 @@ router.post('/', async (req, res) => {
           size = await srcUser.GetSizeFile(files.avatar['0'].path);
         } catch (e) {
           console.log(e);
-          res.writeHead(200, { 'Content-Type': 'application/json' });
           res.clearCookie('user');
           json = {
             status: 'image error',
           };
-          res.end(JSON.stringify(json));
+          res.json(json);
 
           return;
         }
@@ -84,8 +81,7 @@ router.post('/', async (req, res) => {
       status: 'incorrect data',
     };
 
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify(json));
+    res.json(json);
   }
 });
 
