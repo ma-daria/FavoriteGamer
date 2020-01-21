@@ -26,7 +26,7 @@ Bearer
 
 
 **Описание routes**
-- https://test-maryina.wnm.digital/api/sign_up
+- sign_up
 (post)роут регистрации
 
 на вход - FormData вида:
@@ -47,7 +47,7 @@ Bearer
 ```
 А также в cookie отправляется токен пользователя, по которому дается доступ к остальным роутам
 
-- https://test-maryina.wnm.digital/api/sign_in
+- sign_in
 (post)роут для входа в систему
 
 на вход - json вида:
@@ -65,7 +65,7 @@ Bearer
 ```
 А также в cookie отправляется токен пользователя, по которому дается доступ к остальным роутам
 
-- https://test-maryina.wnm.digital/api/gamer_search
+- gamer_search
 (get)роут для проверки сущестования играков по нику
 
 на вход - в query передается параметр gamer:
@@ -79,7 +79,7 @@ api/gamer_search?gamer=nikname
 }
 ```
 
-- https://test-maryina.wnm.digital/api/add_favorite
+- add_favorite
 (post)роут для добавления игрока по нику в избранное.
 
 на вход - json вида:
@@ -95,7 +95,7 @@ api/gamer_search?gamer=nikname
 }
 ```
 
-- https://test-maryina.wnm.digital/api/get_favorite
+- get_favorite
 (get)роут для получения списка избранных играков
 
 на выход - json вида:
