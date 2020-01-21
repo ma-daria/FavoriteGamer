@@ -150,7 +150,7 @@ async function GetFavorite(token) {
     .catch((err) => {
       console.log(err);
 
-      return [];
+      throw err;
     });
 
   return favoriteG.map((o) => o.dataValues.nickname_gamer);
@@ -163,6 +163,15 @@ async function GetFavorite(token) {
  * @constructor
  */
 async function GetInformationGamer(gamer) {
+  try {
+    const json = CheckGamer(gamer);
+
+    if ((await json).status === 'false') {
+      return { status: 'not found' };
+    }
+  } catch (e) {
+    throw e;
+  }
   const body = await ParsingSite(gamer);
   const $ = cheerio.load(body);
   let level = $('div.u-vertical-center').text();
@@ -184,7 +193,14 @@ async function GetInformationGamer(gamer) {
  * @constructor
  */
 async function GetInformationFavorite(token) {
-  const gamers = await GetFavorite(token);
+  let gamers;
+
+  try {
+    gamers = await GetFavorite(token);
+  } catch (e) {
+    gamers = [];
+  }
+
   const mas = [];
 
   for (const gamer of gamers) {
