@@ -6,10 +6,9 @@ const srcFavorite = require('../src/srcFavorite');
 
 /**
 роут для проверки сущестования играков по нику
-на вход - json вида:
-{
-  "gamer": "nickname_gamer"
-}
+на вход - в query передается параметр gamer:
+api/gamer_search?gamer=nikname
+
 на выход - json вида:
 {
     status: "true\false\no login"

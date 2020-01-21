@@ -15,10 +15,14 @@ Bearer
 - Получение игроков из избранного - у каждого игрока есть аватарка, ник и текущий
 уровень в рейтинге
 
-**База данных** 
-- postgresql
-- логин postgres
-- пароль docker
+
+**Запуск приложения**
+-Создать базу данных postgreSQL
+-Создать файл .env по типу .env.example
+-cd link_shortener_02
+-npm install
+-npm start
+
 
 **Описание routes**
 - https://test-maryina.wnm.digital/api/sign_up
