@@ -26,11 +26,17 @@ router.get('/', async (req, res) => {
   const data = joi.validate(req.query, schema);
 
   if (data.error !== null) {
-    res.end('{status: "false"}');
+    res.end('{status: "incorrect data"}');
     console.log(data.error);
   } else {
+    let json;
     const { gamer } = req.query;
-    const json = await srcFavorite.CheckGamer(gamer);
+
+    try {
+      json = await srcFavorite.CheckGamer(gamer);
+    } catch (e) {
+      json = { status: e };
+    }
 
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify(json));

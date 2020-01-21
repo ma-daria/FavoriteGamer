@@ -28,16 +28,23 @@ router.post('/', async (req, res) => {
   const data = joi.validate(req.body, schema);
 
   if (data.error !== null) {
-    res.end('{status: "false"}');
+    res.end('{status: "incorrect data"}');
     console.log(data.error);
   } else {
     const { gamer } = req.body;
-    const result = await srcFavorite.AddFavorite(cookie, gamer);
+
+    let result;
+
+    try {
+      result = await srcFavorite.AddFavorite(cookie, gamer);
+    } catch (e) {
+      result = e;
+    }
 
     res.writeHead(200, { 'Content-Type': 'application/json' });
-    if (result) {
-      res.end('{status: "true"}');
-    } else res.end('{status: "false"}');
+    const json = { status: result };
+
+    res.end(JSON.stringify(json));
   }
 });
 

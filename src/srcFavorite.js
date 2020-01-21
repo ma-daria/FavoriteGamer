@@ -40,9 +40,10 @@ async function CheckGamer(gamer) {
   } catch (e) {
     console.log(e);
 
-    return {
-      status: 'false',
-    };
+    throw e;
+    // return {
+    //   status: 'false',
+    // };
   }
 
   if (body.indexOf('Профиль не найден') === -1) {
@@ -56,6 +57,27 @@ async function CheckGamer(gamer) {
   }
 
   return json;
+}
+
+/**
+ * Запрос id пользователя
+ * @param token токен пользователя
+ * @returns {Promise<*>} id
+ * @constructor
+ */
+async function GetIdUser(token) {
+  const userBd = await user.findOne({
+    where: {
+      token,
+    },
+  })
+    .catch((err) => {
+      console.log(err);
+
+      return -1;
+    });
+
+  return userBd.dataValues.id;
 }
 
 /**
@@ -82,6 +104,16 @@ async function AddFavorite(token, gamer) {
 
   if (sherch !== null) return true;
 
+  let json;
+
+  try {
+    json = await CheckGamer(gamer);
+  } catch (e) {
+    throw e;
+  }
+
+  if (json.status === 'false') return false;
+
   await favorite.create({
     user_id: id,
     nickname_gamer: gamer,
@@ -89,31 +121,10 @@ async function AddFavorite(token, gamer) {
     .catch(async (err) => {
       console.log(err);
 
-      return false;
+      throw err;
     });
 
   return true;
-}
-
-/**
- * Запрос id пользователя
- * @param token токен пользователя
- * @returns {Promise<*>} id
- * @constructor
- */
-async function GetIdUser(token) {
-  const userBd = await user.findOne({
-    where: {
-      token,
-    },
-  })
-    .catch((err) => {
-      console.log(err);
-
-      return -1;
-    });
-
-  return userBd.dataValues.id;
 }
 
 /**
@@ -176,7 +187,7 @@ async function GetInformationFavorite(token) {
   const gamers = await GetFavorite(token);
   const mas = [];
 
-  for(const gamer of gamers) {
+  for (const gamer of gamers) {
     const ga = await GetInformationGamer(gamer);
 
     mas.push(ga);
